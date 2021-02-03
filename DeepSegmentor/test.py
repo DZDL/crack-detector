@@ -2,11 +2,11 @@
 """Based one CycleGAN project: https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix"""
 
 import os
-from DeepSegmentor.options.test_options import TestOptions
-from DeepSegmentor.data import create_dataset
-from DeepSegmentor.models import create_model
-from DeepSegmentor.utils.visualizer import save_images
-from DeepSegmentor.utils import html
+from .options.test_options import TestOptions
+from .data import create_dataset
+from .models import create_model
+from .utils.visualizer import save_images
+from .utils import html
 
 if __name__ == '__main__':
     opt = TestOptions().parse()  # get test options

@@ -1,4 +1,4 @@
-from DeepSegmentor.options.test_options import BaseOptions
+from .base_options import BaseOptions
 
 
 class TestOptions(BaseOptions):

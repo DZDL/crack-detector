@@ -1,9 +1,10 @@
 import argparse
 import os
-from util import util
+from DeepSegmentor.utils import util
 import torch
-import models
-import data
+
+import DeepSegmentor.models
+import DeepSegmentor.data
 
 
 class BaseOptions():
