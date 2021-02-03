@@ -11,12 +11,11 @@ NORM=batch
 NUM_CLASSES=1
 NUM_TEST=10000
 
-python3 test.py \
+python3 DeepSegmentor/test.py \
   --dataroot ${DATAROOT} \
   --name ${NAME} \
   --model ${MODEL} \
-  --dataset_mode ${DATASET_MODE} \
-  --gpu_ids ${GPU_IDS} \
+  --dataset_mode ${DATASET_MODE} \ #  --gpu_ids ${GPU_IDS} \
   --batch_size ${BATCH_SIZE} \
   --num_classes ${NUM_CLASSES} \
   --norm ${NORM} \
