@@ -11,7 +11,7 @@ from DeepSegmentor.utils.visualizer import save_images
 from DeepSegmentor.utils import html
 
 
-sys.path.append('./DeepSegmentor/') # https://stackoverflow.com/a/62365470/10491422
+sys.path.append('DeepSegmentor') # https://stackoverflow.com/a/62365470/10491422
 
 if __name__ == "__main__":
 
