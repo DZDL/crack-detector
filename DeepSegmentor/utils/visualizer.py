@@ -3,7 +3,8 @@ import os
 import sys
 import ntpath
 import time
-from . import util, html
+import DeepSegmentor.utils.util
+import DeepSegmentor.utils.html
 from subprocess import Popen, PIPE
 #from scipy.misc import imresize
 from PIL import Image

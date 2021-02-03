@@ -1,4 +1,6 @@
-GPU_IDS=$1
+#!/bin/bash
+
+# GPU_IDS=$1
 
 DATAROOT=./datasets/DeepCrack
 NAME=deepcrack
@@ -15,9 +17,12 @@ python3 DeepSegmentor/test.py \
   --dataroot ${DATAROOT} \
   --name ${NAME} \
   --model ${MODEL} \
-  --dataset_mode ${DATASET_MODE} \ #  --gpu_ids ${GPU_IDS} \
+  --dataset_mode ${DATASET_MODE} \ 
   --batch_size ${BATCH_SIZE} \
   --num_classes ${NUM_CLASSES} \
   --norm ${NORM} \
   --num_test ${NUM_TEST}\
   --display_sides 1
+
+
+#  --gpu_ids ${GPU_IDS} \  
