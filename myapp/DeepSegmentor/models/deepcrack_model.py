@@ -1,10 +1,13 @@
 # Author: Yahui Liu <yahui.liu@uintn.it>
 
 import torch
+from torch import nn
 import numpy as np
 import itertools
-from DeepSegmentor.models.base_model import BaseModel
-from DeepSegmentor.models.deepcrack_networks import define_deepcrack, BinaryFocalLoss
+
+from myapp.DeepSegmentor.models.base_model import BaseModel
+from myapp.DeepSegmentor.models.deepcrack_networks import define_deepcrack, BinaryFocalLoss
+
 
 class DeepCrackModel(BaseModel):
     """

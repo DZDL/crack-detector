@@ -2,9 +2,9 @@ import argparse
 import os
 import torch
 
-from DeepSegmentor.utils import util
-import DeepSegmentor.models
-import DeepSegmentor.data
+import myapp.DeepSegmentor.models as models
+import myapp.DeepSegmentor.data as data
+from myapp.DeepSegmentor.util import myutil as util
 
 
 class BaseOptions():

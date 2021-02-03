@@ -3,11 +3,12 @@ import os
 import sys
 import ntpath
 import time
-import DeepSegmentor.utils.util
-import DeepSegmentor.utils.html
 from subprocess import Popen, PIPE
 #from scipy.misc import imresize
 from PIL import Image
+
+import myapp.DeepSegmentor.util.myhtml as html
+import myapp.DeepSegmentor.util.myutil as util
 
 if sys.version_info[0] == 2:
     VisdomExceptionBase = Exception

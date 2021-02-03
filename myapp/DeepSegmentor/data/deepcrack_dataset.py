@@ -8,10 +8,9 @@ from PIL import Image
 import torchvision.transforms as transforms
 import torchvision.transforms.functional as TF
 
-
-from DeepSegmentor.data.base_dataset import BaseDataset
-from DeepSegmentor.data.image_folder import make_dataset
-from DeepSegmentor.data.utils import MaskToTensor, get_params, affine_transform
+from myapp.DeepSegmentor.data.base_dataset import BaseDataset
+from myapp.DeepSegmentor.data.image_folder import make_dataset
+from myapp.DeepSegmentor.data.utils import MaskToTensor, get_params, affine_transform
 
 class DeepCrackDataset(BaseDataset):
     """A dataset class for crack dataset."""

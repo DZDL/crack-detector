@@ -1,4 +1,4 @@
-from DeepSegmentor.options.base_options import BaseOptions
+from myapp.DeepSegmentor.options.base_options import BaseOptions
 
 
 class TrainOptions(BaseOptions):

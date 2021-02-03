@@ -11,7 +11,8 @@ DeepCrack: A deep hierarchical feature learning architecture for crack segmentat
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from DeepSegmentor.models.networks import get_norm_layer, init_net
+
+from myapp.DeepSegmentor.models.networks import get_norm_layer, init_net
 
 class DeepCrackNet(nn.Module):
     def __init__(self, in_nc, num_classes, ngf, norm='batch'):
