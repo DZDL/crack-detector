@@ -3,12 +3,15 @@
 
 
 import os
+import sys
 from DeepSegmentor.options.test_options import TestOptions
 from DeepSegmentor.data import create_dataset
 from DeepSegmentor.models import create_model
 from DeepSegmentor.utils.visualizer import save_images
 from DeepSegmentor.utils import html
 
+
+sys.path.append('./DeepSegmentor/') # https://stackoverflow.com/a/62365470/10491422
 
 if __name__ == "__main__":
 
