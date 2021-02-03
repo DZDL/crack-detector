@@ -5,8 +5,8 @@ import os
 from DeepSegmentor.options.test_options import TestOptions
 from DeepSegmentor.data import create_dataset
 from DeepSegmentor.models import create_model
-from DeepSegmentor.util.visualizer import save_images
-from DeepSegmentor.util import html
+from DeepSegmentor.utils.visualizer import save_images
+from DeepSegmentor.utils import html
 
 if __name__ == '__main__':
     opt = TestOptions().parse()  # get test options
