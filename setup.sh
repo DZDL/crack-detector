@@ -10,4 +10,4 @@ bash -c 'echo -e "\
 enableCORS = false\n\
 " > ~/.streamlit/config.toml'
 
-gdown --id 12-iXK656aGUIWCtN9gb0Ko7qotyn9ZcI -O ./checkpoints/deepcrack/latest_net_G.pth
+gdown --id 12-iXK656aGUIWCtN9gb0Ko7qotyn9ZcI -O myapp/DeepSegmentor/checkpoints/deepcrack/latest_net_G.pth

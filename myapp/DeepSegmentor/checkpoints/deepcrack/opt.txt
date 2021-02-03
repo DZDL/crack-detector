@@ -1,0 +1,49 @@
+----------------- Options ---------------
+             aspect_ratio: 1.0                           
+               batch_size: 1                             
+          checkpoints_dir: myapp/DeepSegmentor/checkpoints
+                crop_size: 256                           
+                 dataroot: myapp/DeepSegmentor/datasets/DeepCrack	[default: None]
+             dataset_mode: deepcrack                     
+                direction: AtoB                          
+            display_sides: 1                             
+          display_winsize: 256                           
+                    epoch: latest                        
+                     eval: False                         
+                  gpu_ids: 0                             
+                init_gain: 0.02                          
+                init_type: xavier                        
+                 input_nc: 3                             
+                  isTrain: False                         	[default: None]
+             lambda_fused: 1.0                           
+              lambda_side: 1.0                           
+              load_height: 0                             
+                load_iter: 0                             	[default: 0]
+                load_size: 256                           
+               load_width: 0                             
+                loss_mode: focal                         
+         max_dataset_size: inf                           
+                    model: deepcrack                     	[default: test]
+               n_layers_D: 3                             
+                     name: deepcrack                     	[default: experiment_name]
+                      ndf: 64                            
+                     netD: basic                         
+                     netG: resnet_9blocks                
+                      ngf: 64                            
+               no_dropout: False                         
+                  no_flip: 1                             
+                     norm: batch                         	[default: instance]
+                    ntest: inf                           
+              num_classes: 1                             	[default: 2]
+                 num_test: 10000                         	[default: 50]
+              num_threads: 2                             
+                output_nc: 3                             
+                    phase: test                          
+               preprocess: resize_and_crop               
+              results_dir: ./results/                    
+           serial_batches: False                         
+                   suffix:                               
+              use_augment: False                         
+                 use_selu: 1                             
+                  verbose: False                         
+----------------- End -------------------

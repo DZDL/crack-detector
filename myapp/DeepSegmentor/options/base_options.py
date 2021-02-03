@@ -24,7 +24,7 @@ class BaseOptions():
         parser.add_argument('--dataroot', required=True, help='path to images (should have subfolders trainA, trainB, valA, valB, etc)')
         parser.add_argument('--name', type=str, default='experiment_name', help='name of the experiment. It decides where to store samples and models')
         parser.add_argument('--gpu_ids', type=str, default='0', help='gpu ids: e.g. 0  0,1,2, 0,2. use -1 for CPU')
-        parser.add_argument('--checkpoints_dir', type=str, default='./checkpoints', help='models are saved here')
+        parser.add_argument('--checkpoints_dir', type=str, default='myapp/DeepSegmentor/checkpoints', help='models are saved here')
         # model parameters
         parser.add_argument('--model', type=str, default='deepcrack', help='chooses which model to use. [deepcrack | roadnet]')
         parser.add_argument('--input_nc', type=int, default=3, help='# of input image channels: 3 for RGB and 1 for grayscale')
@@ -138,6 +138,8 @@ class BaseOptions():
         # set gpu ids
         str_ids = opt.gpu_ids.split(',')
         opt.gpu_ids = []
+        print(str_ids)
+        str_ids=''
         for str_id in str_ids:
             id = int(str_id)
             if id >= 0:

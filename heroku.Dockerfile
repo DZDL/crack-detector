@@ -47,7 +47,7 @@ COPY . .
 #RUN chmod +x ./heroku_startup.sh
 
 # download YOLO weights
-RUN gdown --id 12-iXK656aGUIWCtN9gb0Ko7qotyn9ZcI -O ./checkpoints/deepcrack/latest_net_G.pth
+RUN gdown --id 12-iXK656aGUIWCtN9gb0Ko7qotyn9ZcI -O myapp/DeepSegmentor/checkpoints/deepcrack/latest_net_G.pth
 
 # launch streamlit app
 CMD streamlit run --server.enableCORS false --server.port $PORT app.py

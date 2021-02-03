@@ -17,6 +17,7 @@ results_path = ['myapp/DeepSegmentor/results',
                 'myapp/DeepSegmentor/results/deepcrack/test_latest',
                 'myapp/DeepSegmentor/results/deepcrack/test_latest/images/']
 
+max_pixels=500
 
 def make_abs_path():
     os.path.abspath(os.getcwd())
@@ -34,53 +35,81 @@ def create_folders():
             os.mkdir(tmp_path)
 
 
+def clean_temp():
+
+    files_to_remove = ['myapp/DeepSegmentor/datasets/DeepCrack/test_img/myimg.png',
+                       'results/deepcrack/test_latest/images/myimg_fused.png',
+                       'results/deepcrack/test_latest/images/myimg_image.png',
+                       'results/deepcrack/test_latest/images/myimg_label_viz.png',
+                       'results/deepcrack/test_latest/images/myimg_side1.png',
+                       'results/deepcrack/test_latest/images/myimg_side2.png',
+                       'results/deepcrack/test_latest/images/myimg_side3.png',
+                       'results/deepcrack/test_latest/images/myimg_side4.png',
+                       'results/deepcrack/test_latest/images/myimg_side5.png',
+                       ]
+    try:
+        for my_file in files_to_remove:
+            if os.path.isfile(my_file):
+                os.remove(my_file)
+    except Exception as e:
+        print(e)
+
 if __name__ == '__main__':
 
     make_abs_path()
+    clean_temp()
+    create_folders()
 
     st.title("Crack detector")
 
     st.text("Autoras:..")
+
 
     uploaded_img = st.file_uploader("Elige una imagen compatible", type=[
                                     'png', 'jpg', 'bmp', 'jpeg'])
     if uploaded_img is not None:
         file_bytes = np.asarray(bytearray(uploaded_img.read()), dtype=np.uint8)
         image = cv.imdecode(file_bytes, 1)
-
-        create_folders()
-
         cv.imwrite(path+test_path+'myimg.png', image)
+
 
         st.write("This is your uploaded image:")
         st.image(image, caption='La imagen que subiste',
                  channels="BGR", use_column_width=True)
 
-        st.text('Ejecutando red neuronal DeepCrack... ')
+        temp_img=cv.imread(path+test_path+'myimg.png')
+        
+        scale_percent = 80 # percent of original size
+        width = int(temp_img.shape[1])
+        height = int(temp_img.shape[0])
+        
+        while width>max_pixels or height>max_pixels:
+            st.text('Reescalando: Weight-{} Height-{}'.format(width,height))
+
+            width = int(width* scale_percent / 100)
+            height = int(height * scale_percent / 100)
+            dim = (width, height)
+        
+        # resize image
+        resized = cv.resize(image, dim, interpolation = cv.INTER_AREA)
+
+
+        st.image(resized, caption='La imagen escalada para poder ser procesada en la red neuronal sin saturar',
+                 channels="BGR", use_column_width=True)
+
+        cv.imwrite(path+test_path+'myimg.png', resized)
+
+        st.subheader('Ejecutando red neuronal DeepCrack... ')
 
         result = os.popen(command_inference).read()
         # inference_args=command_inference.split(' ')
         # result = subprocess.run(inference_args,capture_output=True,text=True).stdout
-        st.text(result)
+        st.text("GPUS:"+result+"(if null -> cpu) \n")
 
-        st.text('Inferencia terminada')
+        st.subheader('Inferencia terminada')
+        st.subheader('Resultados')
 
-        # boxes, idxs = yolo.runYOLOBoundingBoxes_streamlit(image, yolopath, confidence, threshold)
-        # st.write(pd.DataFrame.from_dict({'confidence' : [confidence],
-        #                                 'threshold' : [threshold],
-        #                                 'Encontrados (Boxes)': [len(boxes)],
-        #                                 'Válidos (idxs)': [len(idxs)],}))
-        # result_images = GrabCut.runGrabCut(image, boxes, idxs)
+        result_image = cv.imread('results/deepcrack/test_latest/images/myimg_fused.png')
 
-        # st.write("Here appears the rectangles that the algorithm recognize:")
-
-        # img_mod=draw_rectangles(image,boxes,idxs)
-
-        # st.image(img_mod, channels="BGR", use_column_width=True)
-
-        # st.write("")
-        # st.write("finish grabcut")
-        # st.write(f"There are {len(result_images)} segmented fish image. Each listed as below:")
-        # for i in range(len(result_images)):
-        #     #cv.imwrite(f'grabcut{i}.jpg', result_images[i])
-        #     st.image(result_images[i], channels="BGR", use_column_width=True)
+        st.image(result_image, caption='La imagen que subiste',
+                 channels="BGR", use_column_width=True)
