@@ -1,27 +1,41 @@
 """Taken from https://github.com/yhlleo/DeepSegmentor"""
 """Based one CycleGAN project: https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix"""
 
-import os
-from .options.test_options import TestOptions
-from .data import create_dataset
-from .models import create_model
-from .utils.visualizer import save_images
-from .utils import html
 
-if __name__ == '__main__':
+import os
+from DeepSegmentor.options.test_options import TestOptions
+from DeepSegmentor.data import create_dataset
+from DeepSegmentor.models import create_model
+from DeepSegmentor.utils.visualizer import save_images
+from DeepSegmentor.utils import html
+
+
+if __name__ == "__main__":
+
+
+    print("TEST.PY resolving...")
+
     opt = TestOptions().parse()  # get test options
     # hard-code some parameters for test
     opt.num_threads = 1   # test code only supports num_threads = 1
     opt.batch_size = 1    # test code only supports batch_size = 1
-    opt.serial_batches = True  # disable data shuffling; comment this line if results on randomly chosen images are needed.
-    opt.no_flip = True    # no flip; comment this line if results on flipped images are needed.
-    opt.display_id = -1   # no visdom display; the test code saves the results to a HTML file.
-    dataset = create_dataset(opt)  # create a dataset given opt.dataset_mode and other options
-    model = create_model(opt)      # create a model given opt.model and other options
-    model.setup(opt)               # regular setup: load and print networks; create schedulers
+    # disable data shuffling; comment this line if results on randomly chosen images are needed.
+    opt.serial_batches = True
+    # no flip; comment this line if results on flipped images are needed.
+    opt.no_flip = True
+    # no visdom display; the test code saves the results to a HTML file.
+    opt.display_id = -1
+    # create a dataset given opt.dataset_mode and other options
+    dataset = create_dataset(opt)
+    # create a model given opt.model and other options
+    model = create_model(opt)
+    # regular setup: load and print networks; create schedulers
+    model.setup(opt)
     # create a website
-    web_dir = os.path.join(opt.results_dir, opt.name, '%s_%s' % (opt.phase, opt.epoch))  # define the website directory
-    webpage = html.HTML(web_dir, 'Experiment = %s, Phase = %s, Epoch = %s' % (opt.name, opt.phase, opt.epoch))
+    web_dir = os.path.join(opt.results_dir, opt.name, '%s_%s' % (
+        opt.phase, opt.epoch))  # define the website directory
+    webpage = html.HTML(web_dir, 'Experiment = %s, Phase = %s, Epoch = %s' % (
+        opt.name, opt.phase, opt.epoch))
     # test with eval mode. This only affects layers like batchnorm and dropout.
     if opt.eval:
         model.eval()
@@ -34,5 +48,6 @@ if __name__ == '__main__':
         img_path = model.get_image_paths()     # get image paths
         if i % 5 == 0:  # save images to an HTML file
             print('processing (%04d)-th image... %s' % (i, img_path))
-        save_images(webpage, visuals, img_path, aspect_ratio=opt.aspect_ratio, width=opt.display_winsize)
+        save_images(webpage, visuals, img_path,
+                    aspect_ratio=opt.aspect_ratio, width=opt.display_winsize)
     webpage.save()  # save the HTML

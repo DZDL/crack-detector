@@ -1,8 +1,8 @@
 import argparse
 import os
-from DeepSegmentor.utils import util
 import torch
 
+from DeepSegmentor.utils import util
 import DeepSegmentor.models
 import DeepSegmentor.data
 

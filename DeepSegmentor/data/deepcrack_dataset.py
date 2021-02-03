@@ -5,9 +5,11 @@ import random
 import cv2
 import numpy as np
 from PIL import Image
-from DeepSegmentor.data.base_dataset import BaseDataset
 import torchvision.transforms as transforms
 import torchvision.transforms.functional as TF
+
+
+from DeepSegmentor.data.base_dataset import BaseDataset
 from DeepSegmentor.data.image_folder import make_dataset
 from DeepSegmentor.data.utils import MaskToTensor, get_params, affine_transform
 
