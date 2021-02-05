@@ -34,11 +34,11 @@ WORKDIR /streamlit-docker
 # upgrade for new versions of opencv
 RUN pip3 install --upgrade pip
 
-# copy requirements.txt
-COPY requirements.txt ./requirements.txt
+# copy requirementsDocker.txt
+COPY requirementsDocker.txt ./requirementsDocker.txt
 
 # install dependencies
-RUN pip3 install -r requirements.txt
+RUN pip3 install -r requirementsDocker.txt
 
 # copy all files over
 COPY . .

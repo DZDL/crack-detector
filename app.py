@@ -62,7 +62,7 @@ if __name__ == '__main__':
 
     st.title("Crack detector")
 
-    st.text("Autoras:..")
+    st.text("Autoras: Liz F., Milagros M.")
 
 
     uploaded_img = st.file_uploader("Elige una imagen compatible", type=[
