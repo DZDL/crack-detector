@@ -46,5 +46,5 @@ COPY . .
 # download YOLO weights
 RUN gdown --id 12-iXK656aGUIWCtN9gb0Ko7qotyn9ZcI -O myapp/DeepSegmentor/checkpoints/deepcrack/latest_net_G.pth
 
-# launch streamlit app
-CMD streamlit run app.py
+# launch streamlit app --server.enableCORS false
+CMD streamlit run --server.port $PORT app.py
