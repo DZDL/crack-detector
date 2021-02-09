@@ -1,4 +1,3 @@
-
 import os
 import subprocess
 import random
@@ -65,10 +64,7 @@ def clean_temp():
                      'output.mp4']
 
     for f in mp4_to_remove:
-        try:
-            os.remove(f)
-        except Exception as e:
-            print(e)
+        os.remove(f)
 
 
 def clean_other_files_from_results(path=results_path[-1]):
@@ -174,13 +170,14 @@ if __name__ == '__main__':
 
     # General description
 
-    st.title("Deep crack")
-    st.text("Only CPU")
-    st.text("Neural network, dataset, pretrained weights and paper: https://github.com/yhlleo/DeepSegmentor")
-    st.text("WebApp: https://github.com/DZDL/crack-detector")
+    st.title("Crack detector")
+    st.text("Parte de tesis2, esta red neuronal permite detectar \nfisuras en diferentes materiales que automatizan \nprocesos de las inspecciones.")
+
+    st.text("Red neuronal: DeepCrack - Liu, 2019")
+    st.text("Aplicación web: Liz F., Milagros M.")
 
     # Upload file
-    st.subheader("- Choose a file (video or image)")
+    st.subheader("- Elige una imagen o video")
     uploaded_file = st.file_uploader("Elige una imagen compatible", type=[
         'png', 'jpg', 'bmp', 'jpeg', 'mp4'])
 
@@ -203,11 +200,11 @@ if __name__ == '__main__':
 
             random_filename = random.choice(os.listdir(path+test_path))
 
-            st.image(path+test_path+random_filename, caption='Random image',
+            st.image(path+test_path+random_filename, caption='Imagen al azar del video',
                      channels="BGR", use_column_width=True)
 
             # Applying neural network: DeepCrack - Liu, 2019
-            st.subheader('Executing neural network DeepCrack... ')
+            st.subheader('Ejecutando red neuronal DeepCrack... ')
 
             # Resize all images
             reduced_dim = resize_all_images_from_path(path+test_path)
@@ -228,7 +225,7 @@ if __name__ == '__main__':
             st.text(result)
 
             # Display video
-            st.subheader("Video output")
+            st.subheader("Video procesado")
             st.video('output.mp4')
 
         #######################
@@ -245,20 +242,20 @@ if __name__ == '__main__':
             cv.imwrite(path+test_path+uploaded_file.name, image)
 
             st.write("This is your uploaded image:")
-            st.image(image, caption='This is the uploaded image',
+            st.image(image, caption='La imagen que subiste',
                      channels="BGR", use_column_width=True)
 
             resized, reduced_dim = resize_one_image(
                 path+test_path+uploaded_file.name)
 
             # Display rezized image
-            st.subheader("Resizing image...")
-            st.image(resized, caption='Reducing size due cpu limitations',
+            st.subheader("Redimensionando imagen...")
+            st.image(resized, caption='La imagen escalada para poder ser procesada en la red neuronal sin saturar',
                      channels="BGR", use_column_width=True)
             cv.imwrite(path+test_path+uploaded_file.name, resized)
 
             # Applying neural network: DeepCrack - Liu, 2019
-            st.subheader('Executing neural network DeepCrack... ')
+            st.subheader('Ejecutando red neuronal DeepCrack... ')
 
             # INFERENCE
             result = os.popen(command_inference).read()
@@ -268,11 +265,11 @@ if __name__ == '__main__':
             st.text("GPUS:"+result+"(if null -> cpu) \n")
 
             # Results
-            st.subheader('Inference output: result image')
+            st.subheader('Inferencia terminada: resultados')
 
             # Get result image and display
             # st.text("Abriendo {}".format(results_path[-1]+uploaded_file.name[:-4]+"_fused.png"))
             result_image = cv.imread(
                 results_path[-1]+uploaded_file.name[:-4]+"_fused.png")
-            st.image(result_image, caption='Output image',
+            st.image(result_image, caption='La imagen que subiste',
                      channels="BGR", use_column_width=True)
