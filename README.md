@@ -14,7 +14,7 @@ Web app powered by AI to detect cracks on surfaces.
 
 ## Web version
 
-Clic [here](https://crack-detector.herokuapp.com/) to see the demo of crack-detector in action for images and video (<5 min).
+Clic [here](https://deepcrackcpu.herokuapp.com/) to see the demo of crack-detector in action for images and video (<5 min).
 
 ## Docker version
 
