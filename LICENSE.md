@@ -1,9 +1,12 @@
-# DeepSegmentor, DeepCrack and more
+----------- DeepSegmentor, DeepCrack and more ----------------------
 
 CHECK SPECIFIC LICENSES OF NEURAL NETWORK, DATATASET, PAPER AND MORE IN
 [DeepSegmentor](https://github.com/yhlleo/DeepSegmentor)
 
-# Webapp
+
+-------------------------------------------------------------------- 
+
+------------------------- Web app (DEMO) ------------------------------
 
 MIT License for WebApp
 
@@ -26,3 +29,5 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+-------------------------------------------------------------------------
