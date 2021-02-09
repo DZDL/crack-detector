@@ -52,8 +52,8 @@ Only maintainers of the repository can do this.
 heroku login
 docker ps
 heroku container:login
-heroku container:push web -a crack-detector
-heroku container:release web -a crack-detector
+heroku container:push web -a crack-detector # or deepcrackcpu 
+heroku container:release web -a crack-detector # or deepcrackcpu
 ```
 
 <!-- - Automatic deploy comming (working)
