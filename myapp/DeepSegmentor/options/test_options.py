@@ -7,10 +7,14 @@ class TestOptions(BaseOptions):
     It also includes shared options defined in BaseOptions.
     """
 
+
     def initialize(self, parser):
+
+        default_result_path='myapp/DeepSegmentor/results/'
+
         parser = BaseOptions.initialize(self, parser)  # define shared options
         parser.add_argument('--ntest', type=int, default=float("inf"), help='# of test examples.')
-        parser.add_argument('--results_dir', type=str, default='./results/', help='saves results here.')
+        parser.add_argument('--results_dir', type=str, default=default_result_path, help='saves results here.')
         parser.add_argument('--aspect_ratio', type=float, default=1.0, help='aspect ratio of result images')
         parser.add_argument('--phase', type=str, default='test', help='train, val, test, etc')
         # Dropout and Batchnorm has different behavioir during training and test.

@@ -1,4 +1,4 @@
-MIT License
+MIT License for WebApp
 
 Copyright (c) 2021 DZDL
 
@@ -21,5 +21,4 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 
-
-Crack Detector IMPLEMENTATION TAKEN FROM https://github.com/yhlleo/DeepSegmentor
+Crack Detector code Implementation taken from [DeepSegmentor](https://github.com/yhlleo/DeepSegmentor)

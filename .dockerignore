@@ -138,8 +138,5 @@ dmypy.json
 *.bmp
 *.mp4
 
-# ignore png of repo
-!docs/img/banner.png
-
 # VSCODE
 .vscode/

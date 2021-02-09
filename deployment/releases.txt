@@ -1,7 +1,7 @@
 docker stop $(docker ps -aq) && docker rm $(docker ps -aq)
-docker build --tag pablogod/crackdetector:1.02 .
-docker run --publish 8501:8501 --detach pablogod/crackdetector:1.02
-docker run --publish 8501:8501 pablogod/crackdetector:1.02
-docker push pablogod/crackdetector:1.02
+docker build --tag pablogod/crackdetector:1.12 .
+docker run --publish 8501:8501 --detach pablogod/crackdetector:1.12
+docker run --publish 8501:8501 pablogod/crackdetector:1.12
+docker push pablogod/crackdetector:1.12
 
 streamlit run app.py
