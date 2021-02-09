@@ -64,7 +64,10 @@ def clean_temp():
                      'output.mp4']
 
     for f in mp4_to_remove:
-        os.remove(f)
+        try:
+            os.remove(f)
+        except Exception as e:
+            print(e)
 
 
 def clean_other_files_from_results(path=results_path[-1]):
