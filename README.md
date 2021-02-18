@@ -37,7 +37,7 @@ Run this code locally on Linux based distros:
 # Clone and install requirements
 git clone https://github.com/DZDL/crack-detector
 cd crack-detector
-pip3 install -r requirementDocker.txt
+pip3 install -r requirementsDocker.txt
 # Download the pretrained weights
 gdown --id 12-iXK656aGUIWCtN9gb0Ko7qotyn9ZcI -O myapp/DeepSegmentor/checkpoints/deepcrack/latest_net_G.pth
 # Run streamlit
