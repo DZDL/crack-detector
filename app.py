@@ -193,29 +193,99 @@ def split_all_images_into_small_images(path):
     pass
 
 
-def merge_small_images_to_one_big_image(path,x,y):
+def merge_small_images_to_one_big_image(path_original,filename):
 
-    images=[]
-    for f in os.listdir(path):
-        print(f'Reading {RESULTS_PATH[-1]+f}')
-        # img=cv.imread()
-        images.append(RESULTS_PATH[-1]+f)
+    img_load=cv.imread(path_original)
+    height = img_load.shape[0]
+    width = img_load.shape[1]
+    channels = img_load.shape[2]
 
-    images.sort()
+    list_files=os.listdir(RESULTS_PATH[-1])
+    list_files.sort()
+    print(list_files)
 
-    t=0
-    array=[[0]*(y+1)]*(x+1)
-    for m in range(x-1):
-        for n in range(y-1):
-            print(f'array [{m}],[{n}]')
-            array[m][n]=cv.imread(images[t])
-            t+=1
+    # Check max rows splitted
+    max_row,max_col=0,0
+    for file in list_files:
+        
+        row=int(file.split('_')[-3])
+        col=int(file.split('_')[-2])
+        if max_row < row:
+            max_row=row
+        if max_col < col:
+            max_col=col
+    print(max_row,max_col)   
 
-    array=np.array(array)
+    # Merge images into one big image with same shape as original
+    img = np.zeros((height,width,3), dtype=np.uint8)
+    iterator=0
+    for r in range(max_row+1):
+        for c in range(max_col+1):
+            
+            window_height=int(height/(max_row+1))
+            window_width=int(width/(max_col+1))
+            
+            #print(window_height,window_width)
+            #print([window_height*r,window_height*(r+1)])
+            #print([window_width*c,window_width*(c+1)])
+            
+            load_img=cv.imread(RESULTS_PATH[-1]+list_files[iterator])
+            
+            #print(load_img.shape)
+            
+            img[window_height*r:window_height*(r+1),
+                window_width*c:window_width*(c+1),
+            :]=load_img
+            iterator+=1
+            #print(r,c)            
+    # Overlap one to another
+    # Taken from https://theailearner.com/2019/03/26/image-overlays-using-bitwise-operations-opencv-python/
 
-    img_tile = concat_vh(array)
+    img_gray = cv.cvtColor(img,cv.COLOR_BGR2GRAY)
+    ret, mask = cv.threshold(img_gray, 200, 255, cv.THRESH_BINARY_INV)
+    mask_inv = cv.bitwise_not(mask)
 
-    return img_tile
+    rows,cols,channels = img.shape
+    roi = img_load[0:rows, 0:cols]
+    img_load_bg = cv.bitwise_and(roi,roi,mask = mask)
+
+    # Taken from https://www.tutorialspoint.com/erosion-and-dilation-of-images-using-opencv-in-python
+    kernel = np.ones((3,3), np.uint8) # set kernel as 3x3 matrix from numpy
+    temp_img=mask_inv
+
+    st.write('- Valores por defecto A, B y C:')
+
+    code = '''
+    A,B,C=5,5,15
+    for a in range(5):
+        temp_img = cv.erode(temp_img, kernel, iterations=5)
+        temp_img = cv.dilate(temp_img, kernel, iterations=15)
+    '''
+    st.code(code, language='python')
+
+    # value_A = st.slider('Selecciona el valor de A:',0, 20, 5)
+    # value_B = st.slider('Selecciona el valor de B:',0, 20, 5)
+    # value_C = st.slider('Selecciona el valor de C:',0, 20, 15)
+
+
+    for a in range(5):
+        temp_img = cv.erode(temp_img, kernel, iterations=5)
+        temp_img = cv.dilate(temp_img, kernel, iterations=15)
+
+    mask_inv=temp_img
+    img[:,:,0:1]=0
+    img_fg = cv.bitwise_and(img,img,mask = mask_inv)
+
+    out_img = cv.add(img_load_bg,img_fg)
+    img[0:rows, 0:cols] = out_img
+
+    # Results
+    st.subheader('Inferencia terminada: resultados')
+
+    cv.imwrite(PATH_SPLIT+"/output_"+filename,img)
+    st.image(img, caption='Superposición de grietas detectadas',
+                channels="BGR", use_column_width=True)
+
 
 def concat_vh(list_2d):
     
@@ -425,13 +495,7 @@ if __name__ == '__main__':
                 clean_other_files_from_results() 
 
                 # Merge small images
-                image_out=merge_small_images_to_one_big_image(RESULTS_PATH[-1],x,y)
+                image_out=merge_small_images_to_one_big_image(PATH_SPLIT+uploaded_file.name,
+                uploaded_file.name)
 
-                # Results
-                st.subheader('Inferencia terminada: resultados')
-
-
-                st.text("Imagen de salida")
-                cv.imwrite(PATH_SPLIT+"/output_"+uploaded_file.name,image_out)
-                st.image(image_out, caption='La imagen que subiste',
-                         channels="BGR", use_column_width=True)
+                
