@@ -19,7 +19,7 @@ RESULTS_PATH = ['myapp/DeepSegmentor/results',
                 'myapp/DeepSegmentor/results/deepcrack/test_latest',
                 'myapp/DeepSegmentor/results/deepcrack/test_latest/images/']
 
-MAX_PIXELS = 500  # width or height
+MAX_PIXELS = 700  # width or height
 MIN_PIX_AREA_CRACK = 500  # MAX AREA IN IMAGE
 
 COMMAND_INFERENCE = 'python3 test.py --dataroot myapp/DeepSegmentor/datasets/DeepCrack --name deepcrack --model deepcrack --dataset_mode deepcrack --batch_size 1 --num_classes 1 --norm batch --num_test 10000 --display_sides 1'
@@ -37,46 +37,26 @@ def make_abs_path():
     return True
 
 
-def create_folders():
-    """
-    Create default folders is not exist.
-    """
-    # Where images are being stored
-    if not os.path.isdir(PATH+TEST_PATH):
-        os.mkdir(PATH+TEST_PATH)
-
-    for tmp_path in RESULTS_PATH:
-        # Where results inference appears
-        if not os.path.isdir(tmp_path):
-            os.mkdir(tmp_path)
-
-
 def clean_temp():
     """
     Remove all files in specific paths
     """
+    print("----------------CLEAN FILES----------------")
 
-    paths_to_remove = ['split',
-                       'myapp/DeepSegmentor/datasets/DeepCrack',
-                       'myapp/DeepSegmentor/datasets/DeepCrack/test_img/',
-                       'myapp/DeepSegmentor/results/deepcrack/test_latest/images']
+    paths_to_remove = RESULTS_PATH
 
-    try:
-        for path in paths_to_remove:
-            for f in os.listdir(path):
-                if not 'README' in f:
+    for path in paths_to_remove:
+
+        if not os.path.isdir(path):
+            os.mkdir(path)
+        for f in os.listdir(path):
+            try:
+                print(os.path.join(path, f))
+                if ('jpg' or 'png' or 'jpeg' or 'bmp' or 'output') in f:
                     os.remove(os.path.join(path, f))
-    except Exception as e:
-        print(e)
-
-    mp4_to_remove = ['temporal.mp4',
-                     'output.mp4']
-
-    for f in mp4_to_remove:
-        try:
-            os.remove(f)
-        except Exception as e:
-            print(e)
+            except Exception as e:
+                print(e)
+                
 
 
 def clean_other_files_from_results(path=RESULTS_PATH[-1]):
@@ -392,7 +372,6 @@ if __name__ == '__main__':
 
     make_abs_path()  # Handle folder as library
     clean_temp()  # Clean temporal files on each upload
-    create_folders()  # Create paths for inputs and results
 
     # General description
 
