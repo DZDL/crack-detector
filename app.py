@@ -154,29 +154,69 @@ def split_one_image_into_small_images(filename_path, filename):
             break
 
     st.write(f'Dimensiones de la imagen: alto={height}, ancho={width}')
-    st.write(f'Divisiones calculadas: alto={divisions_height}, \
-        ancho={divisions_width}')
+    st.write(f'Divisiones calculadas: H_div={divisions_height}, \
+        W_div={divisions_width}')
 
-    slice_window_height = int(height/divisions_height)
-    slice_window_width = int(width/divisions_width)
-    x = 0
-    y = 0
+    if divisions_height==0 or divisions_width==0:
+        # image in a line 
+        if divisions_height==0:
+            # horizontal 
+            slice_window_width = int(width/divisions_width)
+            x = 0
+            y=0
+        
+            for c in range(0, width, slice_window_width):
+                r_c_name = PATH + TEST_PATH + \
+                    str(filename.split(".")[0])+f"_{x}_{y}." + \
+                    str(filename.split(".")[-1].lower())
+                print(f'Creating {r_c_name}')
+                temp_img = image[0:0+height,
+                                c:c+slice_window_width, :]
 
-    for r in range(0, height, slice_window_height):
+                if int(temp_img.shape[0]) > MAX_PIXELS and int(temp_img.shape[1]) > MAX_PIXELS:
+                    cv.imwrite(r_c_name, temp_img)
+                y += 1
+            return x, y
+        if divisions_width==0:
+            # vertical
+            slice_window_height = int(height/divisions_height)
+            x = 0
+            y=0
+        
+            for r in range(0, height, slice_window_height):
+                r_c_name = PATH + TEST_PATH + \
+                    str(filename.split(".")[0])+f"_{x}_{y}." + \
+                    str(filename.split(".")[-1].lower())
+                print(f'Creating {r_c_name}')
+                temp_img = image[r:r+slice_window_height,
+                                0:0+width, :]
+
+                if int(temp_img.shape[0]) > MAX_PIXELS and int(temp_img.shape[1]) > MAX_PIXELS:
+                    cv.imwrite(r_c_name, temp_img)
+                y += 1
+    else:
+        # image in more or equal than 4 parts
+        slice_window_height = int(height/divisions_height)
+        slice_window_width = int(width/divisions_width)
+        x = 0
         y = 0
-        for c in range(0, width, slice_window_width):
-            r_c_name = PATH + TEST_PATH + \
-                str(filename.split(".")[0])+f"_{x}_{y}." + \
-                str(filename.split(".")[-1].lower())
-            print(f'Creating {r_c_name}')
-            temp_img = image[r:r+slice_window_height,
-                             c:c+slice_window_width, :]
 
-            if int(temp_img.shape[0]) > MAX_PIXELS and int(temp_img.shape[1]) > MAX_PIXELS:
-                cv.imwrite(r_c_name, temp_img)
-            y += 1
-        x += 1
-    return x, y
+        for r in range(0, height, slice_window_height):
+            y = 0
+            for c in range(0, width, slice_window_width):
+                r_c_name = PATH + TEST_PATH + \
+                    str(filename.split(".")[0])+f"_{x}_{y}." + \
+                    str(filename.split(".")[-1].lower())
+                print(f'Creating {r_c_name}')
+                temp_img = image[r:r+slice_window_height,
+                                c:c+slice_window_width, :]
+
+                if int(temp_img.shape[0]) > MAX_PIXELS and int(temp_img.shape[1]) > MAX_PIXELS:
+                    cv.imwrite(r_c_name, temp_img)
+                y += 1
+            x += 1
+        return x, y
+
 
 
 def split_all_images_into_small_images(path):
@@ -390,7 +430,7 @@ if __name__ == '__main__':
 
     st.text("Red neuronal: DeepCrack - Liu, 2019")
     st.text("Aplicación web: Liz F., Milagros M.")
-    st.text("Versión: 0.2.0")
+    st.text("Versión: 0.2.4")
 
     # Method to process video
     st.subheader("1. Method to process video")
