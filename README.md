@@ -20,12 +20,12 @@ Clic [here](https://deepcrackcpu.herokuapp.com/) to see the demo of crack-detect
 
 To downloand the image and run the contaider in detach mode, run the code below.
 
-```
+```bash
 docker container run -p 8501:8501 --rm -d pablogod/crack-detector:latest
 ```
 To shutdown the docker type this:
 
-```
+```bash
 docker ps -aq # Check which id was assigned for the crack-detector instance
 docker stop <weird id of crack-detector> # Type the id
 ```
@@ -33,7 +33,7 @@ docker stop <weird id of crack-detector> # Type the id
 ## Local computer
 
 Run this code locally on Linux based distros:
-```
+```bash
 # Clone and install requirements
 git clone https://github.com/DZDL/crack-detector
 cd crack-detector
@@ -48,7 +48,7 @@ streamlit run app.py
 ## Deploy docker on Heroku
 
 Only maintainers of the repository can do this.
-```
+```bash
 heroku login
 docker ps
 heroku container:login
