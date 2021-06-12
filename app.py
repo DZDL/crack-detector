@@ -242,6 +242,8 @@ def merge_small_images_to_one_big_image(path_original, filename):
     max_row, max_col = 0, 0
     for file in list_files:
 
+        print(f"FILE_SPLIT: {file.split('_')}")
+
         row = int(file.split('_')[-3])
         col = int(file.split('_')[-2])
         if max_row < row:
@@ -430,7 +432,7 @@ if __name__ == '__main__':
 
     st.text("Red neuronal: DeepCrack - Liu, 2019")
     st.text("Aplicación web: Liz F., Milagros M.")
-    st.text("Versión: 0.2.4")
+    st.text("Versión: 0.2.6")
 
     # Method to process video
     st.subheader("1. Method to process video")
