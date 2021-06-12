@@ -51,21 +51,21 @@ def clean_and_create_folders():
 
     for path in list_of_paths:
 
-
         if not os.path.isdir(path):
             os.mkdir(path)
-            print('Creating',path)
+            print('[CLEAN FILES][CREATING PATH]', path)
 
         for f in os.listdir(path):
             try:
-                print(os.path.join(path, f))
-                if ('jpg' or 'png' or 'jpeg' or 'bmp' or 'output') in f:
+                print('[CLEAN FILES][REMOVE] ', os.path.join(path, f))
+                if ('jpg' or
+                    'png' or
+                    'jpeg' or
+                    'bmp' or
+                    'output') in f:
                     os.remove(os.path.join(path, f))
             except Exception as e:
                 print(e)
-
-
-
 
 
 def clean_other_files_from_results(path=RESULTS_PATH[-1]+'/'):
@@ -75,7 +75,7 @@ def clean_other_files_from_results(path=RESULTS_PATH[-1]+'/'):
     """
     for f in os.listdir(path):
         if not 'fused' in f:
-            print("Removing..."+path+f)
+            print("[CLEAN FROM RESULTS][REMOVE] ..."+path+f)
             os.remove(path+f)
 
     return True
@@ -87,7 +87,7 @@ def reduce_dims(width, height, scale_percent):
     """
 
     while width > MAX_PIXELS or height > MAX_PIXELS:
-        st.text('Reescalando: Weight-{} Height-{}'.format(width, height))
+        st.text('[reduce_dims] Reescalando: Weight-{} Height-{}'.format(width, height))
 
         width = int(width * scale_percent / 100)
         height = int(height * scale_percent / 100)
@@ -100,6 +100,7 @@ def resize_one_image(filename_path):
     """
     Resize one image with filepath
     """
+    print('[resize_one_image]')
 
     temp_img = cv.imread(filename_path)
 
@@ -119,6 +120,7 @@ def resize_all_images_from_path(path):
     """
     Resize all images given a path.
     """
+    print('[resize_all_images_from_path]')
 
     # Resize all images
     for f in os.listdir(path):
@@ -141,13 +143,13 @@ def split_one_image_into_small_images(filename_path, filename):
 
     divisions_height = 0
     divisions_width = 0
-    while(1):
+    while(True):
         if (height/(divisions_height+1) > MAX_PIXELS*2):
             divisions_height += 1
         else:
             break
 
-    while(1):
+    while(True):
         if (width/(divisions_width+1) > MAX_PIXELS*2):
             divisions_width += 1
         else:
@@ -157,39 +159,39 @@ def split_one_image_into_small_images(filename_path, filename):
     st.write(f'Divisiones calculadas: H_div={divisions_height}, \
         W_div={divisions_width}')
 
-    if divisions_height==0 or divisions_width==0:
-        # image in a line 
-        if divisions_height==0:
-            # horizontal 
+    if divisions_height == 0 or divisions_width == 0:
+        # image in a line
+        if divisions_height == 0:
+            # horizontal
             slice_window_width = int(width/divisions_width)
             x = 0
-            y=0
-        
+            y = 0
+
             for c in range(0, width, slice_window_width):
                 r_c_name = PATH + TEST_PATH + \
                     str(filename.split(".")[0])+f"_{x}_{y}." + \
                     str(filename.split(".")[-1].lower())
                 print(f'Creating {r_c_name}')
                 temp_img = image[0:0+height,
-                                c:c+slice_window_width, :]
+                                 c:c+slice_window_width, :]
 
                 if int(temp_img.shape[0]) > MAX_PIXELS and int(temp_img.shape[1]) > MAX_PIXELS:
                     cv.imwrite(r_c_name, temp_img)
                 y += 1
             return x, y
-        if divisions_width==0:
+        if divisions_width == 0:
             # vertical
             slice_window_height = int(height/divisions_height)
             x = 0
-            y=0
-        
+            y = 0
+
             for r in range(0, height, slice_window_height):
                 r_c_name = PATH + TEST_PATH + \
                     str(filename.split(".")[0])+f"_{x}_{y}." + \
                     str(filename.split(".")[-1].lower())
                 print(f'Creating {r_c_name}')
                 temp_img = image[r:r+slice_window_height,
-                                0:0+width, :]
+                                 0:0+width, :]
 
                 if int(temp_img.shape[0]) > MAX_PIXELS and int(temp_img.shape[1]) > MAX_PIXELS:
                     cv.imwrite(r_c_name, temp_img)
@@ -209,14 +211,13 @@ def split_one_image_into_small_images(filename_path, filename):
                     str(filename.split(".")[-1].lower())
                 print(f'Creating {r_c_name}')
                 temp_img = image[r:r+slice_window_height,
-                                c:c+slice_window_width, :]
+                                 c:c+slice_window_width, :]
 
                 if int(temp_img.shape[0]) > MAX_PIXELS and int(temp_img.shape[1]) > MAX_PIXELS:
                     cv.imwrite(r_c_name, temp_img)
                 y += 1
             x += 1
         return x, y
-
 
 
 def split_all_images_into_small_images(path):
@@ -432,7 +433,7 @@ if __name__ == '__main__':
 
     st.text("Red neuronal: DeepCrack - Liu, 2019")
     st.text("Aplicación web: Liz F., Milagros M.")
-    st.text("Versión: 0.2.6")
+    st.text("Versión: 0.2.8")
 
     # Method to process video
     st.subheader("1. Method to process video")
