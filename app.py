@@ -25,8 +25,8 @@ RESULTS_PATH = ['split',
                 'myapp/DeepSegmentor/results/deepcrack/test_latest',
                 'myapp/DeepSegmentor/results/deepcrack/test_latest/images']
 
-MAX_PIXELS = 500  # width or height
-MIN_PIX_AREA_CRACK = 500  # MAX AREA IN IMAGE
+MAX_PIXELS = 256  # width or height
+MIN_PIX_AREA_CRACK = 256  # MAX AREA IN IMAGE
 
 COMMAND_INFERENCE = 'python3 test.py --dataroot myapp/DeepSegmentor/datasets/DeepCrack --name deepcrack --model deepcrack --dataset_mode deepcrack --batch_size 1 --num_classes 1 --norm batch --num_test 10000 --display_sides 1'
 COMMAND_PNG2MP4 = 'ffmpeg -framerate 30 -i ' + \
@@ -146,13 +146,13 @@ def split_one_image_into_small_images(filename_path, filename):
     divisions_height = 0
     divisions_width = 0
     while(True):
-        if (height/(divisions_height+1) > MAX_PIXELS*2):
+        if (height/(divisions_height+1) > MAX_PIXELS):
             divisions_height += 1
         else:
             break
 
     while(True):
-        if (width/(divisions_width+1) > MAX_PIXELS*2):
+        if (width/(divisions_width+1) > MAX_PIXELS):
             divisions_width += 1
         else:
             break
