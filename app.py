@@ -5,6 +5,8 @@ import streamlit as st
 import cv2 as cv
 import numpy as np
 import pandas as pd
+import gdown
+import shutil
 
 from scripts.imageUtils import list_crack, crack2object, list_crack2image
 
@@ -32,13 +34,16 @@ COMMAND_PNG2MP4 = 'ffmpeg -framerate 30 -i ' + \
 
 METHODS = ['Resize', 'Split (+time)']
 
+def download_pretrained_weights():
 
-def make_abs_path():
-    """
-    Handle folder myapp as library
-    """
-    os.path.abspath(os.getcwd())
-    return True
+    output_file='myapp/DeepSegmentor/checkpoints/deepcrack/latest_net_G.pth'
+    if os.path.isfile(output_file):
+        pass
+    else:
+        id_file='12-iXK656aGUIWCtN9gb0Ko7qotyn9ZcI'
+        url = f'https://drive.google.com/uc?id={id_file}'
+        output = output_file
+        gdown.download(url, output, quiet=False)
 
 
 def clean_and_create_folders():
@@ -51,21 +56,18 @@ def clean_and_create_folders():
 
     for path in list_of_paths:
 
+        try:
+            print('[CLEAN FILES][REMOVE PATHS] ', path)
+            shutil.rmtree(path)
+        except OSError as error:
+            print(error)
+            print(path)
+        except Exception as e:
+            print(e)
+
         if not os.path.isdir(path):
             os.mkdir(path)
             print('[CLEAN FILES][CREATING PATH]', path)
-
-        for f in os.listdir(path):
-            try:
-                print('[CLEAN FILES][REMOVE] ', os.path.join(path, f))
-                if ('jpg' or
-                    'png' or
-                    'jpeg' or
-                    'bmp' or
-                    'output') in f:
-                    os.remove(os.path.join(path, f))
-            except Exception as e:
-                print(e)
 
 
 def clean_other_files_from_results(path=RESULTS_PATH[-1]+'/'):
@@ -161,7 +163,7 @@ def split_one_image_into_small_images(filename_path, filename):
 
     if divisions_height == 0 or divisions_width == 0:
         # image in a line
-        if divisions_height == 0:
+        if divisions_height == 0 and divisions_width!=0:
             # horizontal
             slice_window_width = int(width/divisions_width)
             x = 0
@@ -179,7 +181,7 @@ def split_one_image_into_small_images(filename_path, filename):
                     cv.imwrite(r_c_name, temp_img)
                 y += 1
             return x, y
-        if divisions_width == 0:
+        if divisions_height!=0 and divisions_width == 0:
             # vertical
             slice_window_height = int(height/divisions_height)
             x = 0
@@ -196,6 +198,8 @@ def split_one_image_into_small_images(filename_path, filename):
                 if int(temp_img.shape[0]) > MAX_PIXELS and int(temp_img.shape[1]) > MAX_PIXELS:
                     cv.imwrite(r_c_name, temp_img)
                 y += 1
+        if divisions_height==0 and divisions_width == 0:
+            st.write('--------------------->USE OTHER METHOD<---------------------')
     else:
         # image in more or equal than 4 parts
         slice_window_height = int(height/divisions_height)
@@ -423,8 +427,9 @@ def overlap_filtered_cracks(imgOrig_path, imgMask_path):
 
 if __name__ == '__main__':
 
-    make_abs_path()  # Handle folder as library
+    # make_abs_path()  # Handle folder as library
     clean_and_create_folders()  # Clean temporal files on each upload
+    download_pretrained_weights() # Download pretained
 
     # General description
 
@@ -433,7 +438,7 @@ if __name__ == '__main__':
 
     st.text("Red neuronal: DeepCrack - Liu, 2019")
     st.text("Aplicación web: Liz F., Milagros M.")
-    st.text("Versión: 0.2.8")
+    st.text("Versión: 0.2.9")
 
     # Method to process video
     st.subheader("1. Method to process video")
