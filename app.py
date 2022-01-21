@@ -438,7 +438,7 @@ if __name__ == '__main__':
 
     st.text("Red neuronal: DeepCrack - Liu, 2019")
     st.text("Aplicación web: Liz F., Milagros M.")
-    st.text("Versión: 0.2.9")
+    st.text("Versión: 0.2.11")
 
     # Method to process video
     st.subheader("1. Method to process video")
