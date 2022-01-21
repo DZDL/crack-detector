@@ -87,3 +87,12 @@ Database & code, more info check [DeepCrack](https://github.com/yhlleo/DeepCrack
   doi={10.1109/TGRS.2018.2870871}
 }
 ```
+
+
+
+Google deploy
+
+```
+sudo snap install google-cloud-sdk
+gcloud auth login
+```
