@@ -403,7 +403,7 @@ def filter_merged_image(image_path):
     return all_cracks
 
 
-def overlap_filtered_cracks(imgOrig_path, imgMask_path):
+def overlap_filtered_cracks(imgOrig_path, imgMask_path,thresh=200):
 
     # https://theailearner.com/2019/03/26/image-overlays-using-bitwise-operations-opencv-python/
 
@@ -413,7 +413,7 @@ def overlap_filtered_cracks(imgOrig_path, imgMask_path):
     rows, cols, channels = img2.shape
     roi = img1[0:rows, 0:cols]
     img2gray = cv.cvtColor(img2, cv.COLOR_BGR2GRAY)
-    ret, mask = cv.threshold(img2gray, 200, 255, cv.THRESH_BINARY_INV)
+    ret, mask = cv.threshold(img2gray, thresh, 255, cv.THRESH_BINARY_INV)
     mask_inv = cv.bitwise_not(mask)
     img2[:, :, 0:1] = 0
     img1_bg = cv.bitwise_and(roi, roi, mask=mask)
@@ -517,6 +517,7 @@ if __name__ == '__main__':
                 # IMAGE UPLOADED FILE - RESIZE METHOD
                 #######################################
 
+                cv.imwrite(PATH+TEST_PATH+'temporal.jpg', image)
                 cv.imwrite(PATH+TEST_PATH+uploaded_file.name, image)
 
                 st.write("This is your uploaded image:")
@@ -545,12 +546,31 @@ if __name__ == '__main__':
                 # Results
                 st.subheader('Inferencia terminada: resultados')
 
+
+                img = cv.imread(PATH+TEST_PATH+'temporal.jpg')
+                width=img.shape[1]
+                height=img.shape[0]
+                new_dim=(width, height)
+                img2=cv.imread(RESULTS_PATH[-1]+'/'+uploaded_file.name[:-4]+"_fused.png")
+                resized = cv.resize(img2, new_dim)
+                cv.imwrite(PATH+TEST_PATH+'temporal_fused.jpg', resized)
+    
+
                 # Get result image and display
                 # st.text("Abriendo {}".format(RESULTS_PATH[-1]+uploaded_file.name[:-4]+"_fused.png"))
-                result_image = cv.imread(
-                    RESULTS_PATH[-1]+'/'+uploaded_file.name[:-4]+"_fused.png")
+                result_image = cv.imread(PATH+TEST_PATH+'temporal_fused.jpg')
                 st.image(result_image,
-                         caption='La imagen que subiste',
+                         caption='Grietas detectadas',
+                         channels="BGR",
+                         use_column_width=True)
+
+                # Overlap two images
+                image_filtered = overlap_filtered_cracks(PATH+TEST_PATH+'temporal.jpg',
+                                                         PATH+TEST_PATH+'temporal_fused.jpg',
+                                                         thresh=50)
+
+                st.image(image_filtered,
+                         caption='Imagen con cracks filtrados',
                          channels="BGR",
                          use_column_width=True)
 
